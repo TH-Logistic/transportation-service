@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ListGaragePagingRequest extends BasePagingRequest {
+public class ListTransportationPagingRequest extends BasePagingRequest {
     String keyword;
+    Integer deliveryStatus;
 }

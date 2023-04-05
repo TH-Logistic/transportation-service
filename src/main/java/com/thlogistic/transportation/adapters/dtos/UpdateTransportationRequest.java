@@ -9,11 +9,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateTransportationRequest {
+public class UpdateTransportationRequest {
     @NotBlank(message = "Invalid license plate")
     String licensePlate;
     @Min(value = 0, message = "Invalid load")
     Double load;
+    Integer deliveryStatus;
     String garageId;
     String mainDriverId;
     String coDriverId;

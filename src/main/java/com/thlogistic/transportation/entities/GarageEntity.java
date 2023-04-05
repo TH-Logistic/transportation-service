@@ -1,5 +1,6 @@
 package com.thlogistic.transportation.entities;
 
+import com.thlogistic.transportation.core.entities.Garage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -21,5 +22,15 @@ public class GarageEntity {
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Garage toGarage() {
+        return new Garage(
+                this.id,
+                this.name,
+                this.address,
+                this.latitude,
+                this.longitude
+        );
     }
 }
