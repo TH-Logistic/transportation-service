@@ -4,8 +4,8 @@ package com.thlogistic.transportation.core.entities;
 import com.thlogistic.transportation.aop.exception.InvalidDeliveryStatusException;
 
 public enum DeliveryStatus {
-    ON_ROAD(1),
-    AT_GARAGE(2);
+    IDLE(1),
+    DELIVERY(2);
 
     public final Integer status;
 
