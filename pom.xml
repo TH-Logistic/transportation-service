@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.thlogistic.transportation</groupId>
-	<artifactId>transportation</artifactId>
+	<artifactId>transportation-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>transportation</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Transportation service</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
