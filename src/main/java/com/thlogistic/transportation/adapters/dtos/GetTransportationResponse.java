@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class GetTransportationResponse {
     String id;
     String licensePlate;
     Double load;
+    Integer deliveryStatus;
     GetGarageResponse garage;
     String mainDriverName;
     String coDriverName;

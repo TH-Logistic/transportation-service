@@ -7,7 +7,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BasePagingResponse<T> {
     Long total;
     Integer totalPage;

@@ -9,6 +9,7 @@ public class TransportationMapper {
         GetTransportationResponse response = new GetTransportationResponse();
         response.setId(transportation.getId());
         response.setLoad(transportation.getLoad());
+        response.setDeliveryStatus(transportation.getDeliveryStatus().status);
         response.setLicensePlate(transportation.getLicensePlate());
         if (garage != null) {
             response.setGarage(GarageMapper.fromGarageToResponse(garage));

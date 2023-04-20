@@ -17,11 +17,4 @@ public class ApplicationConfig {
                 .setSkipNullEnabled(true);
         return modelMapper;
     }
-
-    @Bean
-    public Jackson2ObjectMapperBuilder jacksonBuilder() {
-        Jackson2ObjectMapperBuilder b = new Jackson2ObjectMapperBuilder();
-        b.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
-        return b;
-    }
 }
