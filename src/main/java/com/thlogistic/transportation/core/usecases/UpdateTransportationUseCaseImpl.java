@@ -18,16 +18,19 @@ import java.util.Optional;
 public class UpdateTransportationUseCaseImpl implements UpdateTransportationUseCase {
 
     private final TransportationRepository repository;
+    private final GetGarageUseCase getGarageUseCase;
 
     @Override
     public Object execute(Pair<String, UpdateTransportationRequest> requestPair) {
-        // Check request
+        // Check delivery status in request
         UpdateTransportationRequest request = requestPair.getSecond();
         if (Objects.equals(request.getDeliveryStatus(), DeliveryStatus.IDLE.status)) {
             if (request.getGarageId() == null || request.getGarageId().isEmpty()) {
                 throw new RuntimeException("Require garage if delivery status is Idle");
             }
         }
+        // Check if garage id in request exists
+        getGarageUseCase.execute(request.getGarageId());
 
         Optional<TransportationEntity> entity = repository.findById(requestPair.getFirst());
         if (entity.isEmpty()) {
