@@ -35,8 +35,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     .encoder(new GsonEncoder())
                     .decoder(new GsonDecoder())
                     .target(AuthorizationClient.class, AUTHORIZATION_URL);
-            BaseResponse<PermissionDto> permissionResponse = authorizationClient.checkPermission(token, roles);
-            if (!permissionResponse.getSuccess()) {
+            try {
+                BaseResponse<PermissionDto> permissionResponse = authorizationClient.checkPermission(token, roles);
+                if (!permissionResponse.getSuccess()) {
+                    throw new UnauthorizedException("Invalid token credential");
+                }
+            } catch (Exception e) {
                 throw new UnauthorizedException("Invalid token credential");
             }
         } else {
