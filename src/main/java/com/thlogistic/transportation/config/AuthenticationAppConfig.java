@@ -2,13 +2,13 @@ package com.thlogistic.transportation.config;
 
 import com.thlogistic.transportation.interceptor.AuthenticationInterceptor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Component
+@Configuration
 @RequiredArgsConstructor
-public class AuthenticationAppConfig extends WebMvcConfigurationSupport {
+public class AuthenticationAppConfig implements WebMvcConfigurer {
 
     private final AuthenticationInterceptor authenticationInterceptor;
 
