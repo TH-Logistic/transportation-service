@@ -20,7 +20,6 @@ import java.util.List;
 public class AuthenticationInterceptor implements HandlerInterceptor {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String AUTHORIZATION_URL = "http://www.thinhlh.com:8000/check-permissions";
-
     private final RestTemplate restTemplate;
 
     @Override
@@ -38,11 +37,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             try {
                 ResponseEntity<BaseResponse> authResponse = restTemplate.postForEntity(AUTHORIZATION_URL, authRequest, BaseResponse.class);
                 if (authResponse.getBody() == null || !authResponse.getBody().getSuccess()) {
-                    throw new UnauthorizedException("Invalid token credential 1");
+                    throw new UnauthorizedException("Invalid token credential");
                 }
             } catch (Exception e) {
                 System.out.println("DebugMode: " + e.getMessage());
-                throw new UnauthorizedException("Invalid token credential 2");
+                throw new UnauthorizedException("Invalid token credential");
             }
         } else {
             throw new UnauthorizedException("Unauthenticated");
