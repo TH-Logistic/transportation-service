@@ -24,6 +24,10 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+        if (request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
+
         String token = request.getHeader(AUTHORIZATION_HEADER);
 
         if (token != null) {
@@ -40,7 +44,6 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new UnauthorizedException("Invalid token credential");
                 }
             } catch (Exception e) {
-                System.out.println("DebugMode: " + e.getMessage());
                 throw new UnauthorizedException("Invalid token credential");
             }
         } else {
