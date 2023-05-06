@@ -15,6 +15,6 @@ public class GetTransportationResponse {
     Double load;
     Integer deliveryStatus;
     GetGarageResponse garage;
-    String mainDriverName;
-    String coDriverName;
+    GetDriverInfoDto mainDriverInfo;
+    GetDriverInfoDto coDriverInfo;
 }

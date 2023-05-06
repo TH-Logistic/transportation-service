@@ -1,5 +1,6 @@
 package com.thlogistic.transportation.mapper;
 
+import com.thlogistic.transportation.adapters.dtos.GetDriverInfoDto;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.core.entities.Garage;
 import com.thlogistic.transportation.core.entities.Transportation;
@@ -14,8 +15,23 @@ public class TransportationMapper {
         if (garage != null) {
             response.setGarage(GarageMapper.fromGarageToResponse(garage));
         }
-        response.setMainDriverName("TODO");
-        response.setCoDriverName("TODO");
+
+        // TODO: Add Driver info
+        GetDriverInfoDto mainDriverInfoDto = GetDriverInfoDto.builder()
+                .id("TODO")
+                .avatarUrl("TODO")
+                .name("TODO")
+                .phoneNumber("TODO")
+                .dateOfBirth("TODO")
+                .build();
+
+        GetDriverInfoDto coDriverInfoDto = GetDriverInfoDto.builder()
+                .id("TODO")
+                .avatarUrl("TODO")
+                .name("TODO")
+                .phoneNumber("TODO")
+                .dateOfBirth("TODO")
+                .build();
         return response;
     }
 }
