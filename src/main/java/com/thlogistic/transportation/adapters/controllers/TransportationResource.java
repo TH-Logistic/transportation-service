@@ -10,12 +10,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/transportation")
 interface TransportationResource {
+
+    @GetMapping("/{id}")
+    ResponseEntity<Object> getTransportation(@PathVariable String id);
     @GetMapping("/list")
-    ResponseEntity<Object> listGarage(@Valid ListTransportationPagingRequest request);
+    ResponseEntity<Object> listTransportation(@Valid ListTransportationPagingRequest request);
 
     @PostMapping
-    ResponseEntity<Object> createGarage(@Valid @RequestBody CreateTransportationRequest request);
+    ResponseEntity<Object> createTransportation(@Valid @RequestBody CreateTransportationRequest request);
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> updateGarage(@Valid @RequestBody UpdateTransportationRequest request, @PathVariable String id);
+    ResponseEntity<Object> updateTransportation(@Valid @RequestBody UpdateTransportationRequest request, @PathVariable String id);
 }
