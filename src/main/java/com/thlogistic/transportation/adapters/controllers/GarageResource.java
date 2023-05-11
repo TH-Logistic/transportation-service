@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/garage")
 interface GarageResource {
+    @GetMapping("/{id}")
+    ResponseEntity<Object> getGarage(@PathVariable String id);
     @GetMapping("/list")
     ResponseEntity<Object> listGarage(@Valid ListGaragePagingRequest request);
 

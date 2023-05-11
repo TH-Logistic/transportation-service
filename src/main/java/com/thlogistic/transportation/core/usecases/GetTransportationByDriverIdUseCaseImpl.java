@@ -1,7 +1,12 @@
 package com.thlogistic.transportation.core.usecases;
 
+import com.thlogistic.transportation.adapters.dtos.BaseResponse;
+import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
+import com.thlogistic.transportation.adapters.dtos.GetTransportationIdAndLicensePlateResponse;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
+import com.thlogistic.transportation.client.AuthorizationClient;
+import com.thlogistic.transportation.client.UserInfoDto;
 import com.thlogistic.transportation.core.entities.Transportation;
 import com.thlogistic.transportation.core.ports.TransportationRepository;
 import com.thlogistic.transportation.entities.TransportationEntity;
@@ -13,19 +18,23 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class GetTransportationUseCaseImpl implements GetTransportationUseCase {
+public class GetTransportationByDriverIdUseCaseImpl implements GetTransportationByDriverIdUseCase {
 
     private final TransportationRepository transportationRepository;
 
+    private final AuthorizationClient authorizationClient;
+
     @Override
-    public GetTransportationResponse execute(String id) {
-        Optional<TransportationEntity> entityOptional = transportationRepository.findById(id);
+    public GetTransportationIdAndLicensePlateResponse execute(BaseTokenRequest<String> baseTokenRequest) {
+        // TODO: Check auth
+
+        Optional<TransportationEntity> entityOptional = transportationRepository.findByDriverId(baseTokenRequest.getRequestContent());
         if (entityOptional.isEmpty()) {
             throw new DataNotFoundException(Transportation.class.getSimpleName());
         }
         TransportationEntity entity = entityOptional.get();
 
-        return TransportationMapper.toGetTransportationResponse(
+        return TransportationMapper.toGetTransportationIdAndLicensePlateResponse(
                 entity.toTransportation()
         );
     }

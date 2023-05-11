@@ -33,6 +33,11 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     }
 
     @Override
+    public Optional<TransportationEntity> findByDriverId(String driverId) {
+        return repository.findByMainDriverIdOrCoDriverId(driverId, driverId);
+    }
+
+    @Override
     public BasePagingQueryResult<List<TransportationEntity>> list(String keyword,
                                                                   DeliveryStatus deliveryStatus,
                                                                   Integer page,

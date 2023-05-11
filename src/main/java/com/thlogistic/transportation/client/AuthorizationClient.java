@@ -15,4 +15,11 @@ public interface AuthorizationClient {
             "Authorization: {token}"
     })
     BaseResponse<PermissionDto> checkPermission(@Param("token") String token, @RequestBody List<String> roles);
+
+    @RequestLine("GET /users/me")
+    @Headers({
+            "Content-Type: application/json",
+            "Authorization: {token}"
+    })
+    BaseResponse<UserInfoDto> getUser(@Param("token") String token);
 }

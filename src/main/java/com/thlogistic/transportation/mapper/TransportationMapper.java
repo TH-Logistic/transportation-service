@@ -1,24 +1,24 @@
 package com.thlogistic.transportation.mapper;
 
 import com.thlogistic.transportation.adapters.dtos.GetDriverInfoDto;
+import com.thlogistic.transportation.adapters.dtos.GetTransportationIdAndLicensePlateResponse;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
+import com.thlogistic.transportation.core.entities.DeliveryStatus;
 import com.thlogistic.transportation.core.entities.Garage;
 import com.thlogistic.transportation.core.entities.Transportation;
 
 public class TransportationMapper {
-    public static GetTransportationResponse toGetTransportationResponse(Transportation transportation, Garage garage) {
-        GetTransportationResponse response = new GetTransportationResponse();
-        response.setId(transportation.getId());
-        response.setLoad(transportation.getLoad());
-        response.setDeliveryStatus(transportation.getDeliveryStatus().status);
-        response.setLicensePlate(transportation.getLicensePlate());
-        if (garage != null) {
-            response.setGarage(GarageMapper.fromGarageToResponse(garage));
-        }
+    public static GetTransportationResponse toGetTransportationResponse(Transportation transportation) {
+        GetTransportationResponse.GetTransportationResponseBuilder responseBuilder = GetTransportationResponse.builder();
+        responseBuilder.id(transportation.getId());
+        responseBuilder.load(transportation.getLoad());
+        responseBuilder.deliveryStatus(transportation.getDeliveryStatus().status);
+        responseBuilder.licensePlate(transportation.getLicensePlate());
+        responseBuilder.isInGarage(transportation.getDeliveryStatus() == DeliveryStatus.IDLE);
 
-        // TODO: Add Driver info
+        // TODO: Get Driver info
         GetDriverInfoDto mainDriverInfoDto = GetDriverInfoDto.builder()
-                .id("TODO")
+                .id(transportation.getMainDriverId())
                 .avatarUrl("TODO")
                 .name("TODO")
                 .phoneNumber("TODO")
@@ -26,12 +26,24 @@ public class TransportationMapper {
                 .build();
 
         GetDriverInfoDto coDriverInfoDto = GetDriverInfoDto.builder()
-                .id("TODO")
+                .id(transportation.getCoDriverId())
                 .avatarUrl("TODO")
                 .name("TODO")
                 .phoneNumber("TODO")
                 .dateOfBirth("TODO")
                 .build();
+
+        responseBuilder.mainDriverInfo(mainDriverInfoDto);
+        responseBuilder.coDriverInfo(coDriverInfoDto);
+
+        return responseBuilder.build();
+    }
+
+    public static GetTransportationIdAndLicensePlateResponse toGetTransportationIdAndLicensePlateResponse(Transportation transportation) {
+        GetTransportationIdAndLicensePlateResponse response = new GetTransportationIdAndLicensePlateResponse();
+        response.setId(transportation.getId());
+        response.setLicensePlate(transportation.getLicensePlate());
+
         return response;
     }
 }

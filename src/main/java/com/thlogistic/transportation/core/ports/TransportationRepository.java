@@ -13,6 +13,7 @@ public interface TransportationRepository {
     String save(TransportationEntity transportation);
 
     Optional<TransportationEntity> findById(String id);
+    Optional<TransportationEntity> findByDriverId(String mainDriverId);
 
     BasePagingQueryResult<List<TransportationEntity>> list(String keyword, DeliveryStatus deliveryStatus, Integer page, Integer size);
 

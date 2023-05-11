@@ -9,12 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetTransportationResponse {
+public class GetTransportationIdAndLicensePlateResponse {
     String id;
     String licensePlate;
-    Double load;
-    Integer deliveryStatus;
-    Boolean isInGarage;
-    GetDriverInfoDto mainDriverInfo;
-    GetDriverInfoDto coDriverInfo;
 }

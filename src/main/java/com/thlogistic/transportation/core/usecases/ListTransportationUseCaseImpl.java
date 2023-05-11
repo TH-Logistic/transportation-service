@@ -40,25 +40,9 @@ public class ListTransportationUseCaseImpl implements ListTransportationUseCase 
             );
         }
 
-        // Update Garage if Transportation contains non-null garageId
-        List<GetTransportationResponse> transportationResponses = new LinkedList<>();
-        queryResult.getData().forEach(transportationEntity -> {
-                    if (transportationEntity.getGarageId() != null) {
-                        Garage garage = getGarageUseCase.execute(transportationEntity.getGarageId());
-                        GetTransportationResponse getTransportationResponse = TransportationMapper.toGetTransportationResponse(
-                                transportationEntity.toTransportation(),
-                                garage
-                        );
-                        transportationResponses.add(getTransportationResponse);
-                    } else {
-                        GetTransportationResponse getTransportationResponse = TransportationMapper.toGetTransportationResponse(
-                                transportationEntity.toTransportation(),
-                                null
-                        );
-                        transportationResponses.add(getTransportationResponse);
-                    }
-                }
-        );
+        List<GetTransportationResponse> transportationResponses = queryResult.getData().stream().map(e -> {
+            return TransportationMapper.toGetTransportationResponse(e.toTransportation());
+        }).toList();
 
         BasePagingResponse<GetTransportationResponse> response = new BasePagingResponse<>();
         response.setContent(transportationResponses);
