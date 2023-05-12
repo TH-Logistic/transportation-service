@@ -2,11 +2,13 @@ package com.thlogistic.transportation.core.usecases;
 
 import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationNoDriverInfoResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
 import com.thlogistic.transportation.client.AuthorizationClient;
+import com.thlogistic.transportation.core.entities.DeliveryStatus;
 import com.thlogistic.transportation.core.entities.Transportation;
+import com.thlogistic.transportation.core.ports.GarageRepository;
 import com.thlogistic.transportation.core.ports.TransportationRepository;
+import com.thlogistic.transportation.entities.GarageEntity;
 import com.thlogistic.transportation.entities.TransportationEntity;
 import com.thlogistic.transportation.mapper.TransportationMapper;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class GetTransportationByDriverIdUseCaseImpl implements GetTransportationByDriverIdUseCase {
 
     private final TransportationRepository transportationRepository;
+    private final GarageRepository garageRepository;
 
     private final AuthorizationClient authorizationClient;
 
@@ -32,8 +35,17 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
         }
         TransportationEntity entity = entityOptional.get();
 
+        if (entity.getDeliveryStatus() == DeliveryStatus.IDLE) {
+            GarageEntity garageEntity = garageRepository.findById(entity.getGarageId()).get();
+            return TransportationMapper.toGetTransportationNoDriverInfoResponse(
+                    entity.toTransportation(),
+                    garageEntity.toGarage()
+            );
+        }
+
         return TransportationMapper.toGetTransportationNoDriverInfoResponse(
-                entity.toTransportation()
+                entity.toTransportation(),
+                null
         );
     }
 }

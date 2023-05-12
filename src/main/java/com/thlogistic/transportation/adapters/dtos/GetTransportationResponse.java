@@ -15,6 +15,7 @@ public class GetTransportationResponse {
     Double load;
     Integer deliveryStatus;
     Boolean isInGarage;
+    GetGarageResponse garage;
     GetDriverInfoDto mainDriverInfo;
     GetDriverInfoDto coDriverInfo;
 }

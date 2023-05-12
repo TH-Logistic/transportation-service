@@ -12,7 +12,6 @@ import com.thlogistic.transportation.mapper.TransportationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -30,8 +29,7 @@ public class ListTransportationUseCaseImpl implements ListTransportationUseCase 
             queryResult = repository.listWithoutDeliveryStatus(request.getKeyword(),
                     request.getPage(),
                     request.getSize());
-        }
-        else {
+        } else {
             queryResult = repository.list(
                     request.getKeyword(),
                     DeliveryStatus.fromInt(request.getDeliveryStatus()),
@@ -41,7 +39,14 @@ public class ListTransportationUseCaseImpl implements ListTransportationUseCase 
         }
 
         List<GetTransportationResponse> transportationResponses = queryResult.getData().stream().map(e -> {
-            return TransportationMapper.toGetTransportationResponse(e.toTransportation());
+            if (e.getDeliveryStatus() == DeliveryStatus.IDLE) {
+                Garage garage = getGarageUseCase.execute(e.getGarageId());
+                return TransportationMapper.toGetTransportationResponse(
+                        e.toTransportation(),
+                        garage
+                );
+            }
+            return TransportationMapper.toGetTransportationResponse(e.toTransportation(), null);
         }).toList();
 
         BasePagingResponse<GetTransportationResponse> response = new BasePagingResponse<>();

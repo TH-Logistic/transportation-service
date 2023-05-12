@@ -16,6 +16,7 @@ public class CreateTransportationRequest {
     String licensePlate;
     @Min(value = 0, message = "Invalid load")
     Double load;
+    @NotBlank(message = "Invalid garage ID")
     String garageId;
     String mainDriverId;
     String coDriverId;

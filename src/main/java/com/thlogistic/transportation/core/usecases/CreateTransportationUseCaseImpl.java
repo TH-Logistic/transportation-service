@@ -13,9 +13,13 @@ import org.springframework.stereotype.Service;
 public class CreateTransportationUseCaseImpl implements CreateTransportationUseCase {
 
     private final TransportationRepository repository;
+    private final GetGarageUseCase getGarageUseCase;
 
     @Override
     public CreateTransportationResponse execute(CreateTransportationRequest request) {
+        // Check if garage is existed
+        getGarageUseCase.execute(request.getGarageId());
+
         TransportationEntity entity = new TransportationEntity(
                 request.getLicensePlate(),
                 request.getLoad(),

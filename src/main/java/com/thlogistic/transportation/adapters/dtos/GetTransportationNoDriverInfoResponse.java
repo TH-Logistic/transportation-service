@@ -15,4 +15,5 @@ public class GetTransportationNoDriverInfoResponse {
     Double load;
     Integer deliveryStatus;
     Boolean isInGarage;
+    GetGarageResponse garage;
 }
