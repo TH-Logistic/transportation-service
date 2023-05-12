@@ -1,10 +1,9 @@
 package com.thlogistic.transportation.mapper;
 
 import com.thlogistic.transportation.adapters.dtos.GetDriverInfoDto;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationIdAndLicensePlateResponse;
+import com.thlogistic.transportation.adapters.dtos.GetTransportationNoDriverInfoResponse;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
-import com.thlogistic.transportation.core.entities.Garage;
 import com.thlogistic.transportation.core.entities.Transportation;
 
 public class TransportationMapper {
@@ -39,10 +38,13 @@ public class TransportationMapper {
         return responseBuilder.build();
     }
 
-    public static GetTransportationIdAndLicensePlateResponse toGetTransportationIdAndLicensePlateResponse(Transportation transportation) {
-        GetTransportationIdAndLicensePlateResponse response = new GetTransportationIdAndLicensePlateResponse();
+    public static GetTransportationNoDriverInfoResponse toGetTransportationNoDriverInfoResponse(Transportation transportation) {
+        GetTransportationNoDriverInfoResponse response = new GetTransportationNoDriverInfoResponse();
         response.setId(transportation.getId());
+        response.setLoad(transportation.getLoad());
+        response.setDeliveryStatus(transportation.getDeliveryStatus().status);
         response.setLicensePlate(transportation.getLicensePlate());
+        response.setIsInGarage(transportation.getDeliveryStatus() == DeliveryStatus.IDLE);
 
         return response;
     }

@@ -9,7 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetTransportationIdAndLicensePlateResponse {
+public class GetTransportationNoDriverInfoResponse {
     String id;
     String licensePlate;
+    Double load;
+    Integer deliveryStatus;
+    Boolean isInGarage;
 }

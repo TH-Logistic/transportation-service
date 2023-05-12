@@ -1,12 +1,10 @@
 package com.thlogistic.transportation.core.usecases;
 
-import com.thlogistic.transportation.adapters.dtos.BaseResponse;
 import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationIdAndLicensePlateResponse;
+import com.thlogistic.transportation.adapters.dtos.GetTransportationNoDriverInfoResponse;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
 import com.thlogistic.transportation.client.AuthorizationClient;
-import com.thlogistic.transportation.client.UserInfoDto;
 import com.thlogistic.transportation.core.entities.Transportation;
 import com.thlogistic.transportation.core.ports.TransportationRepository;
 import com.thlogistic.transportation.entities.TransportationEntity;
@@ -25,7 +23,7 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
     private final AuthorizationClient authorizationClient;
 
     @Override
-    public GetTransportationIdAndLicensePlateResponse execute(BaseTokenRequest<String> baseTokenRequest) {
+    public GetTransportationNoDriverInfoResponse execute(BaseTokenRequest<String> baseTokenRequest) {
         // TODO: Check auth
 
         Optional<TransportationEntity> entityOptional = transportationRepository.findByDriverId(baseTokenRequest.getRequestContent());
@@ -34,7 +32,7 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
         }
         TransportationEntity entity = entityOptional.get();
 
-        return TransportationMapper.toGetTransportationIdAndLicensePlateResponse(
+        return TransportationMapper.toGetTransportationNoDriverInfoResponse(
                 entity.toTransportation()
         );
     }

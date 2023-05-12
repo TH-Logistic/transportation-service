@@ -26,7 +26,7 @@ public class TransportationController extends BaseController implements Transpor
 
     @Override
     public ResponseEntity<Object> getTransportationByDriverId(String token, String driverId) {
-        GetTransportationIdAndLicensePlateResponse response = getTransportationByDriverIdUseCase.execute(
+        GetTransportationNoDriverInfoResponse response = getTransportationByDriverIdUseCase.execute(
                 new BaseTokenRequest<>(
                         token,
                         driverId
