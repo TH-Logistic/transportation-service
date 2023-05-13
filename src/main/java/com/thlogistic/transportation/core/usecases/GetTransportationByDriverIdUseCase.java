@@ -6,5 +6,5 @@ import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface GetTransportationByDriverIdUseCase extends BaseUseCase<BaseTokenRequest<String>, GetTransportationNoDriverInfoResponse> {
+public interface GetTransportationByDriverIdUseCase extends BaseUseCase<BaseTokenRequest<String>, GetTransportationResponse> {
 }

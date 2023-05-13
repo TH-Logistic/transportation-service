@@ -1,10 +1,7 @@
 package com.thlogistic.transportation.aop;
 
 import com.thlogistic.transportation.adapters.dtos.ErrorResponse;
-import com.thlogistic.transportation.aop.exception.BadRequestException;
-import com.thlogistic.transportation.aop.exception.DataNotFoundException;
-import com.thlogistic.transportation.aop.exception.InvalidDeliveryStatusException;
-import com.thlogistic.transportation.aop.exception.UnauthorizedException;
+import com.thlogistic.transportation.aop.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -52,6 +49,13 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             BadRequestException ex, WebRequest request) {
         Map<String, Object> response = ErrorResponse.errorResponse(ex.getMessage(), null);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomRuntimeException.class)
+    public ResponseEntity<Object> handleCustomRuntimeException(
+            CustomRuntimeException ex, WebRequest request) {
+        Map<String, Object> response = ErrorResponse.errorResponse(ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 
