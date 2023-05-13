@@ -1,6 +1,7 @@
 package com.thlogistic.transportation.aop;
 
 import com.thlogistic.transportation.adapters.dtos.ErrorResponse;
+import com.thlogistic.transportation.aop.exception.BadRequestException;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
 import com.thlogistic.transportation.aop.exception.InvalidDeliveryStatusException;
 import com.thlogistic.transportation.aop.exception.UnauthorizedException;
@@ -44,6 +45,13 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
             UnauthorizedException ex, WebRequest request) {
         Map<String, Object> response = ErrorResponse.errorResponse(ex.getMessage(), null);
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Object> handleBadRequestException(
+            BadRequestException ex, WebRequest request) {
+        Map<String, Object> response = ErrorResponse.errorResponse(ex.getMessage(), null);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
 

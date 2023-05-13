@@ -3,7 +3,6 @@ package com.thlogistic.transportation.core.usecases;
 import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationNoDriverInfoResponse;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
-import com.thlogistic.transportation.client.AuthorizationClient;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
 import com.thlogistic.transportation.core.entities.Transportation;
 import com.thlogistic.transportation.core.ports.GarageRepository;
@@ -23,12 +22,8 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
     private final TransportationRepository transportationRepository;
     private final GarageRepository garageRepository;
 
-    private final AuthorizationClient authorizationClient;
-
     @Override
     public GetTransportationNoDriverInfoResponse execute(BaseTokenRequest<String> baseTokenRequest) {
-        // TODO: Check auth
-
         Optional<TransportationEntity> entityOptional = transportationRepository.findByDriverId(baseTokenRequest.getRequestContent());
         if (entityOptional.isEmpty()) {
             throw new DataNotFoundException(Transportation.class.getSimpleName());

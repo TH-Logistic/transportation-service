@@ -1,9 +1,7 @@
 package com.thlogistic.transportation.mapper;
 
-import com.thlogistic.transportation.adapters.dtos.GetDriverInfoDto;
-import com.thlogistic.transportation.adapters.dtos.GetGarageResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationNoDriverInfoResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
+import com.thlogistic.transportation.adapters.dtos.*;
+import com.thlogistic.transportation.client.user.UserInfoDto;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
 import com.thlogistic.transportation.core.entities.Garage;
 import com.thlogistic.transportation.core.entities.Transportation;
@@ -11,7 +9,9 @@ import com.thlogistic.transportation.core.entities.Transportation;
 public class TransportationMapper {
     public static GetTransportationResponse toGetTransportationResponse(
             Transportation transportation,
-            Garage garage
+            Garage garage,
+            UserInfoDto mainDriver,
+            UserInfoDto coDriver
     ) {
         GetTransportationResponse.GetTransportationResponseBuilder responseBuilder = GetTransportationResponse.builder();
         responseBuilder.id(transportation.getId());
@@ -25,27 +25,49 @@ public class TransportationMapper {
             responseBuilder.garage(garageResponse);
         }
 
-        // TODO: Get Driver info
         GetDriverInfoDto mainDriverInfoDto = GetDriverInfoDto.builder()
                 .id(transportation.getMainDriverId())
-                .avatarUrl("TODO")
-                .name("TODO")
-                .phoneNumber("TODO")
-                .dateOfBirth("TODO")
+                .avatarUrl(mainDriver.getAvatar())
+                .name(mainDriver.getName())
+                .phoneNumber(mainDriver.getPhoneNumber())
+                .dateOfBirth(mainDriver.getBirthday())
                 .build();
 
         GetDriverInfoDto coDriverInfoDto = GetDriverInfoDto.builder()
                 .id(transportation.getCoDriverId())
-                .avatarUrl("TODO")
-                .name("TODO")
-                .phoneNumber("TODO")
-                .dateOfBirth("TODO")
+                .avatarUrl(coDriver.getAvatar())
+                .name(coDriver.getName())
+                .phoneNumber(coDriver.getPhoneNumber())
+                .dateOfBirth(coDriver.getBirthday())
                 .build();
 
-        responseBuilder.mainDriverInfo(mainDriverInfoDto);
-        responseBuilder.coDriverInfo(coDriverInfoDto);
+        responseBuilder.mainDriver(mainDriverInfoDto);
+        responseBuilder.coDriver(coDriverInfoDto);
 
         return responseBuilder.build();
+    }
+
+    public static GetTransportationWithDriverNameResponse toGetTransportationWithDriverNameResponse(
+            Transportation transportation,
+            Garage garage,
+            UserInfoDto mainDriver,
+            UserInfoDto coDriver
+    ) {
+        GetTransportationWithDriverNameResponse response = new GetTransportationWithDriverNameResponse();
+        response.setId(transportation.getId());
+        response.setLoad(transportation.getLoad());
+        response.setDeliveryStatus(transportation.getDeliveryStatus().status);
+        response.setLicensePlate(transportation.getLicensePlate());
+        response.setIsInGarage(transportation.getDeliveryStatus() == DeliveryStatus.IDLE);
+        response.setMainDriver(mainDriver.getName());
+        response.setCoDriver(coDriver.getName());
+
+        if (garage != null) {
+            GetGarageResponse garageResponse = GarageMapper.fromGarageToResponse(garage);
+            response.setGarage(garageResponse);
+        }
+
+        return response;
     }
 
     public static GetTransportationNoDriverInfoResponse toGetTransportationNoDriverInfoResponse(

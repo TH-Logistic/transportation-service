@@ -1,9 +1,9 @@
 package com.thlogistic.transportation.core.usecases;
 
-import com.thlogistic.transportation.adapters.dtos.BasePagingResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
-import com.thlogistic.transportation.adapters.dtos.ListTransportationPagingRequest;
+import com.thlogistic.transportation.adapters.dtos.*;
 import com.thlogistic.transportation.adapters.repositories.BasePagingQueryResult;
+import com.thlogistic.transportation.client.user.UserClient;
+import com.thlogistic.transportation.client.user.UserInfoDto;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
 import com.thlogistic.transportation.core.entities.Garage;
 import com.thlogistic.transportation.core.ports.TransportationRepository;
@@ -20,36 +20,60 @@ public class ListTransportationUseCaseImpl implements ListTransportationUseCase 
 
     private final TransportationRepository repository;
     private final GetGarageUseCase getGarageUseCase;
+    private final UserClient userClient;
 
     @Override
-    public BasePagingResponse<GetTransportationResponse> execute(ListTransportationPagingRequest request) {
+    public BasePagingResponse<GetTransportationWithDriverNameResponse> execute(BaseTokenRequest<ListTransportationPagingRequest> baseTokenRequest) {
+        String token = baseTokenRequest.getToken();
+        ListTransportationPagingRequest requestContent = baseTokenRequest.getRequestContent();
+
         BasePagingQueryResult<List<TransportationEntity>> queryResult;
-        Integer deliverStatusCode = request.getDeliveryStatus();
+        Integer deliverStatusCode = requestContent.getDeliveryStatus();
         if (deliverStatusCode == null) {
-            queryResult = repository.listWithoutDeliveryStatus(request.getKeyword(),
-                    request.getPage(),
-                    request.getSize());
+            queryResult = repository.listWithoutDeliveryStatus(requestContent.getKeyword(),
+                    requestContent.getPage(),
+                    requestContent.getSize());
         } else {
             queryResult = repository.list(
-                    request.getKeyword(),
-                    DeliveryStatus.fromInt(request.getDeliveryStatus()),
-                    request.getPage(),
-                    request.getSize()
+                    requestContent.getKeyword(),
+                    DeliveryStatus.fromInt(requestContent.getDeliveryStatus()),
+                    requestContent.getPage(),
+                    requestContent.getSize()
             );
         }
 
-        List<GetTransportationResponse> transportationResponses = queryResult.getData().stream().map(e -> {
-            if (e.getDeliveryStatus() == DeliveryStatus.IDLE) {
-                Garage garage = getGarageUseCase.execute(e.getGarageId());
-                return TransportationMapper.toGetTransportationResponse(
-                        e.toTransportation(),
-                        garage
+        List<GetTransportationWithDriverNameResponse> transportationResponses = queryResult.getData().stream().map(entity -> {
+            String mainDriverId = entity.getMainDriverId();
+            String coDriverId = entity.getCoDriverId();
+
+            UserInfoDto mainDriverDto;
+            UserInfoDto coDriverDto;
+
+            try {
+                mainDriverDto = userClient.getUser(token, mainDriverId).getData();
+                coDriverDto = userClient.getUser(token, coDriverId).getData();
+            } catch (Exception e) {
+                throw new RuntimeException("An error occurred when get driver info");
+            }
+
+            if (entity.getDeliveryStatus() == DeliveryStatus.IDLE) {
+                Garage garage = getGarageUseCase.execute(entity.getGarageId());
+                return TransportationMapper.toGetTransportationWithDriverNameResponse(
+                        entity.toTransportation(),
+                        garage,
+                        mainDriverDto,
+                        coDriverDto
                 );
             }
-            return TransportationMapper.toGetTransportationResponse(e.toTransportation(), null);
+            return TransportationMapper.toGetTransportationWithDriverNameResponse(
+                    entity.toTransportation(),
+                    null,
+                    mainDriverDto,
+                    coDriverDto
+            );
         }).toList();
 
-        BasePagingResponse<GetTransportationResponse> response = new BasePagingResponse<>();
+        BasePagingResponse<GetTransportationWithDriverNameResponse> response = new BasePagingResponse<>();
         response.setContent(transportationResponses);
         response.setTotal(queryResult.getTotal());
         response.setTotalPage(queryResult.getTotalPage());

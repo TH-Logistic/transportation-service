@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GetTransportationResponse {
+public class GetTransportationWithDriverNameResponse {
     String id;
     String licensePlate;
     Double load;
     Integer deliveryStatus;
     Boolean isInGarage;
     GetGarageResponse garage;
-    GetDriverInfoDto mainDriver;
-    GetDriverInfoDto coDriver;
+    String mainDriver;
+    String coDriver;
 }

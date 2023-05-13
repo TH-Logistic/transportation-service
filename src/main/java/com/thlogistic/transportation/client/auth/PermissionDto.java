@@ -1,4 +1,4 @@
-package com.thlogistic.transportation.client;
+package com.thlogistic.transportation.client.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInfoDto {
+public class PermissionDto {
     String _id;
     String name;
     String email;
@@ -15,6 +15,4 @@ public class UserInfoDto {
     String avatar;
     String role;
     String deletedAt;
-    String bankName;
-    String bankAccount;
 }

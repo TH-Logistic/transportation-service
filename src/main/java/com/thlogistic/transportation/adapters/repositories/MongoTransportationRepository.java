@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface MongoTransportationRepository extends MongoRepository<TransportationEntity, String> {
     Optional<TransportationEntity> findByMainDriverIdOrCoDriverId(String mainDriverId, String coDriverId);
 
+    Optional<TransportationEntity> findByLicensePlate(String licensePlate);
+
     Page<TransportationEntity> findByLicensePlateContainingIgnoreCaseAndDeliveryStatusIs(String keyword, DeliveryStatus deliveryStatus, Pageable pageable);
 
     Page<TransportationEntity> findByLicensePlateContainingIgnoreCase(String keyword, Pageable pageable);

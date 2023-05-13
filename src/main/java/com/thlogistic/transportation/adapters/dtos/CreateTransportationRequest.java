@@ -18,6 +18,8 @@ public class CreateTransportationRequest {
     Double load;
     @NotBlank(message = "Invalid garage ID")
     String garageId;
+    @NotBlank(message = "Invalid main driver ID")
     String mainDriverId;
+    @NotBlank(message = "Invalid co driver ID")
     String coDriverId;
 }

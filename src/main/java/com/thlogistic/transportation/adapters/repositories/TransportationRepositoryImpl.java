@@ -38,6 +38,11 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     }
 
     @Override
+    public Optional<TransportationEntity> findByLicensePlate(String licensePlate) {
+        return repository.findByLicensePlate(licensePlate);
+    }
+
+    @Override
     public BasePagingQueryResult<List<TransportationEntity>> list(String keyword,
                                                                   DeliveryStatus deliveryStatus,
                                                                   Integer page,

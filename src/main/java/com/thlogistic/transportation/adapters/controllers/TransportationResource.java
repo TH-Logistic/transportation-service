@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.*;
 interface TransportationResource {
 
     @GetMapping("/{id}")
-    ResponseEntity<Object> getTransportation(@PathVariable String id);
+    ResponseEntity<Object> getTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
 
     @GetMapping("/find-by-driver/{driverId}")
     ResponseEntity<Object> getTransportationByDriverId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String driverId);
 
     @GetMapping("/list")
-    ResponseEntity<Object> listTransportation(@Valid ListTransportationPagingRequest request);
+    ResponseEntity<Object> listTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid ListTransportationPagingRequest request);
 
     @PostMapping
-    ResponseEntity<Object> createTransportation(@Valid @RequestBody CreateTransportationRequest request);
+    ResponseEntity<Object> createTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid @RequestBody CreateTransportationRequest request);
 
     @PutMapping("/{id}")
     ResponseEntity<Object> updateTransportation(@Valid @RequestBody UpdateTransportationRequest request, @PathVariable String id);

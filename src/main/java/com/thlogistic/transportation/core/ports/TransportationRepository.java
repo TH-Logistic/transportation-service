@@ -14,6 +14,7 @@ public interface TransportationRepository {
 
     Optional<TransportationEntity> findById(String id);
     Optional<TransportationEntity> findByDriverId(String mainDriverId);
+    Optional<TransportationEntity> findByLicensePlate(String licensePlate);
 
     BasePagingQueryResult<List<TransportationEntity>> list(String keyword, DeliveryStatus deliveryStatus, Integer page, Integer size);
 
