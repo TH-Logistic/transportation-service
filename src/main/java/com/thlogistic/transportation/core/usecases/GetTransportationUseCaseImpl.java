@@ -1,8 +1,6 @@
 package com.thlogistic.transportation.core.usecases;
 
-import com.thlogistic.transportation.adapters.dtos.BaseResponse;
 import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
-import com.thlogistic.transportation.adapters.dtos.GetDriverInfoDto;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
 import com.thlogistic.transportation.client.user.UserClient;

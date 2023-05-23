@@ -78,4 +78,9 @@ public class TransportationRepositoryImpl implements TransportationRepository {
         result.totalPage = entities.getTotalPages();
         return result;
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }

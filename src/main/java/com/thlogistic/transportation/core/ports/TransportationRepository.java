@@ -19,4 +19,5 @@ public interface TransportationRepository {
     BasePagingQueryResult<List<TransportationEntity>> list(String keyword, DeliveryStatus deliveryStatus, Integer page, Integer size);
 
     BasePagingQueryResult<List<TransportationEntity>> listWithoutDeliveryStatus(String keyword, Integer page, Integer size);
+    void deleteAll();
 }

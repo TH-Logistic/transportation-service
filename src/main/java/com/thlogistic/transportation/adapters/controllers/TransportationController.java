@@ -12,32 +12,45 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransportationController extends BaseController implements TransportationResource {
 
     private final GetTransportationUseCase getTransportationUseCase;
+    private final GetTransportationDetailUseCase getTransportationDetailUseCase;
     private final GetTransportationByDriverIdUseCase getTransportationByDriverIdUseCase;
     private final CreateTransportationUseCase createTransportationUseCase;
     private final UpdateTransportationUseCase updateTransportationUseCase;
     private final ListTransportationUseCase listTransportationUseCase;
     private final UpdateTransportationDeliveryStatusUseCase updateTransportationDeliveryStatusUseCase;
+    private final DeleteAllTransportationUseCase deleteAllTransportationUseCase;
 
     @Override
     public ResponseEntity<Object> getTransportation(String token, String id) {
-        GetTransportationResponse response = getTransportationUseCase.execute(
+        GetTransportationResponse result = getTransportationUseCase.execute(
                 new BaseTokenRequest<>(
                         token,
                         id
                 )
         );
-        return successResponse(response, null);
+        return successResponse(result, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> getTransportationDetail(String token, String id) {
+        GetTransportationDetailResponse result = getTransportationDetailUseCase.execute(
+                new BaseTokenRequest<>(
+                        token,
+                        id
+                )
+        );
+        return successResponse(result, null);
     }
 
     @Override
     public ResponseEntity<Object> getTransportationByDriverId(String token, String driverId) {
-        GetTransportationResponse response = getTransportationByDriverIdUseCase.execute(
+        GetTransportationResponse result = getTransportationByDriverIdUseCase.execute(
                 new BaseTokenRequest<>(
                         token,
                         driverId
                 )
         );
-        return successResponse(response, null);
+        return successResponse(result, null);
     }
 
     @Override
@@ -71,6 +84,12 @@ public class TransportationController extends BaseController implements Transpor
     @Override
     public ResponseEntity<Object> updateDeliveryStatus(UpdateTransportationDeliveryStatusRequest request, String id) {
         updateTransportationDeliveryStatusUseCase.execute(Pair.of(id, request));
+        return successResponse(true, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> deleteAll() {
+        deleteAllTransportationUseCase.execute(true);
         return successResponse(true, null);
     }
 }

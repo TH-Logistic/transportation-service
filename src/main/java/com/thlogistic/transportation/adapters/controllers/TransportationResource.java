@@ -16,6 +16,9 @@ interface TransportationResource {
     @GetMapping("/{id}")
     ResponseEntity<Object> getTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
 
+    @GetMapping("detail/{id}")
+    ResponseEntity<Object> getTransportationDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
+
     @GetMapping("/find-by-driver/{driverId}")
     ResponseEntity<Object> getTransportationByDriverId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String driverId);
 
@@ -30,4 +33,7 @@ interface TransportationResource {
 
     @PutMapping("/update-delivery-status/{id}")
     ResponseEntity<Object> updateDeliveryStatus(@Valid @RequestBody UpdateTransportationDeliveryStatusRequest request, @PathVariable String id);
+
+    @DeleteMapping("/all")
+    ResponseEntity<Object> deleteAll();
 }
