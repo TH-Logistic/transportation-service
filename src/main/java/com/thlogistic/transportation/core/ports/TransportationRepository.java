@@ -16,8 +16,9 @@ public interface TransportationRepository {
     Optional<TransportationEntity> findByDriverId(String mainDriverId);
     Optional<TransportationEntity> findByLicensePlate(String licensePlate);
 
-    BasePagingQueryResult<List<TransportationEntity>> list(String keyword, DeliveryStatus deliveryStatus, Integer page, Integer size);
+    BasePagingQueryResult<List<TransportationEntity>> paging(String keyword, DeliveryStatus deliveryStatus, Integer page, Integer size);
 
-    BasePagingQueryResult<List<TransportationEntity>> listWithoutDeliveryStatus(String keyword, Integer page, Integer size);
+    BasePagingQueryResult<List<TransportationEntity>> pagingWithoutDeliveryStatus(String keyword, Integer page, Integer size);
+    List<TransportationEntity> listByGarageId(String garageId);
     void deleteAll();
 }

@@ -4,6 +4,7 @@ import com.thlogistic.transportation.adapters.dtos.CreateGarageRequest;
 import com.thlogistic.transportation.adapters.dtos.UpdateGarageRequest;
 import com.thlogistic.transportation.adapters.dtos.ListGaragePagingRequest;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 interface GarageResource {
     @GetMapping("/{id}")
     ResponseEntity<Object> getGarage(@PathVariable String id);
+
+    @GetMapping("/detail/{id}")
+    ResponseEntity<Object> getGarageDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
+
     @GetMapping("/list")
     ResponseEntity<Object> listGarage(@Valid ListGaragePagingRequest request);
 

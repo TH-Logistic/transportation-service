@@ -30,11 +30,11 @@ public class ListTransportationUseCaseImpl implements ListTransportationUseCase 
         BasePagingQueryResult<List<TransportationEntity>> queryResult;
         Integer deliverStatusCode = requestContent.getDeliveryStatus();
         if (deliverStatusCode == null) {
-            queryResult = repository.listWithoutDeliveryStatus(requestContent.getKeyword(),
+            queryResult = repository.pagingWithoutDeliveryStatus(requestContent.getKeyword(),
                     requestContent.getPage(),
                     requestContent.getSize());
         } else {
-            queryResult = repository.list(
+            queryResult = repository.paging(
                     requestContent.getKeyword(),
                     DeliveryStatus.fromInt(requestContent.getDeliveryStatus()),
                     requestContent.getPage(),

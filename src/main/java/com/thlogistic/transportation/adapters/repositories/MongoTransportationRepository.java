@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MongoTransportationRepository extends MongoRepository<TransportationEntity, String> {
@@ -16,4 +17,6 @@ public interface MongoTransportationRepository extends MongoRepository<Transport
     Page<TransportationEntity> findByLicensePlateContainingIgnoreCaseAndDeliveryStatusIs(String keyword, DeliveryStatus deliveryStatus, Pageable pageable);
 
     Page<TransportationEntity> findByLicensePlateContainingIgnoreCase(String keyword, Pageable pageable);
+
+    List<TransportationEntity> findByGarageId(String garageId);
 }

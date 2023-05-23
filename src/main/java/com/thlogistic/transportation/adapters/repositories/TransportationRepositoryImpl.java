@@ -43,10 +43,10 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     }
 
     @Override
-    public BasePagingQueryResult<List<TransportationEntity>> list(String keyword,
-                                                                  DeliveryStatus deliveryStatus,
-                                                                  Integer page,
-                                                                  Integer size) {
+    public BasePagingQueryResult<List<TransportationEntity>> paging(String keyword,
+                                                                    DeliveryStatus deliveryStatus,
+                                                                    Integer page,
+                                                                    Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<TransportationEntity> entities;
         if (keyword == null || keyword.isEmpty()) {
@@ -63,7 +63,7 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     }
 
     @Override
-    public BasePagingQueryResult<List<TransportationEntity>> listWithoutDeliveryStatus(String keyword, Integer page, Integer size) {
+    public BasePagingQueryResult<List<TransportationEntity>> pagingWithoutDeliveryStatus(String keyword, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<TransportationEntity> entities;
         if (keyword == null || keyword.isEmpty()) {
@@ -77,6 +77,11 @@ public class TransportationRepositoryImpl implements TransportationRepository {
         result.total = entities.getTotalElements();
         result.totalPage = entities.getTotalPages();
         return result;
+    }
+
+    @Override
+    public List<TransportationEntity> listByGarageId(String garageId) {
+        return repository.findByGarageId(garageId);
     }
 
     @Override
