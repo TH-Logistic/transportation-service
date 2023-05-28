@@ -11,6 +11,7 @@ public class UserInfoDto {
     String id;
     String status;
     String name;
+    String gender;
     String username;
     String phoneNumber;
     String email;

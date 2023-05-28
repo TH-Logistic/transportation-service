@@ -13,6 +13,7 @@ public class GetDriverInfoDto {
     String id;
     String avatarUrl;
     String name;
+    String gender;
     String phoneNumber;
     String dateOfBirth;
 }

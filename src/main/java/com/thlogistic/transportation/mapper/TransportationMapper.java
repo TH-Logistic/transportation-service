@@ -29,6 +29,7 @@ public class TransportationMapper {
                 .id(transportation.getMainDriverId())
                 .avatarUrl(mainDriver.getAvatar())
                 .name(mainDriver.getName())
+                .gender(mainDriver.getGender())
                 .phoneNumber(mainDriver.getPhoneNumber())
                 .dateOfBirth(mainDriver.getBirthday())
                 .build();
@@ -37,6 +38,7 @@ public class TransportationMapper {
                 .id(transportation.getCoDriverId())
                 .avatarUrl(coDriver.getAvatar())
                 .name(coDriver.getName())
+                .gender(mainDriver.getGender())
                 .phoneNumber(coDriver.getPhoneNumber())
                 .dateOfBirth(coDriver.getBirthday())
                 .build();
