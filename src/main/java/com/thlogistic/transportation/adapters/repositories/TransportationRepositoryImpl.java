@@ -85,6 +85,11 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     }
 
     @Override
+    public List<TransportationEntity> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public void deleteAll() {
         repository.deleteAll();
     }

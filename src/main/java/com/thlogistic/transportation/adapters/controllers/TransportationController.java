@@ -14,6 +14,7 @@ public class TransportationController extends BaseController implements Transpor
     private final GetTransportationUseCase getTransportationUseCase;
     private final GetTransportationDetailUseCase getTransportationDetailUseCase;
     private final GetTransportationByDriverIdUseCase getTransportationByDriverIdUseCase;
+    private final GetTotalTransportationUseCase getTotalTransportationUseCase;
     private final CreateTransportationUseCase createTransportationUseCase;
     private final UpdateTransportationUseCase updateTransportationUseCase;
     private final ListTransportationUseCase listTransportationUseCase;
@@ -61,6 +62,12 @@ public class TransportationController extends BaseController implements Transpor
                         request
                 )
         );
+        return successResponse(result, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> getTotalTransportations(String token) {
+        Integer result = getTotalTransportationUseCase.execute(token);
         return successResponse(result, null);
     }
 

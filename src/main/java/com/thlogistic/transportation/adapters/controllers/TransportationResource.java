@@ -25,6 +25,9 @@ interface TransportationResource {
     @GetMapping("/list")
     ResponseEntity<Object> listTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid ListTransportationPagingRequest request);
 
+    @GetMapping("/total")
+    ResponseEntity<Object> getTotalTransportations(@RequestHeader(HttpHeaders.AUTHORIZATION) String token);
+
     @PostMapping
     ResponseEntity<Object> createTransportation(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid @RequestBody CreateTransportationRequest request);
 

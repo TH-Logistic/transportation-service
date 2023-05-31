@@ -16,4 +16,5 @@ public class GetDriverInfoDto {
     String gender;
     String phoneNumber;
     String dateOfBirth;
+    Integer numberOfTrips;
 }

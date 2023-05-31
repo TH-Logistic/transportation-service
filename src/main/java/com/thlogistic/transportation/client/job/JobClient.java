@@ -12,4 +12,11 @@ public interface JobClient {
             "Authorization: {token}"
     })
     BaseResponse<GetJobStatisticResponse> getJobStatistic(@Param("token") String token, @Param("driverId") String driverId);
+
+    @RequestLine("GET api/v1/job/number-of-trips/{driverId}")
+    @Headers({
+            "Content-Type: application/json",
+            "Authorization: {token}"
+    })
+    BaseResponse<Integer> getNumberOfTripsOfDriver(@Param("token") String token, @Param("driverId") String driverId);
 }

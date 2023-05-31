@@ -21,4 +21,7 @@ public class UserInfoDto {
     String deletedAt;
     String bankName;
     String bankAccount;
+
+    //TODO delete this field
+    Integer numberOfTrips;
 }

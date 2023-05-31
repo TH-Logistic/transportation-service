@@ -34,9 +34,9 @@ public class UpdateTransportationDeliveryStatusUseCaseImpl implements UpdateTran
             if (request.getGarageId() == null || request.getGarageId().isEmpty()) {
                 throw new RuntimeException("Require garage if delivery status is Idle");
             }
+            // Check if garage id in request exists
+            getGarageUseCase.execute(request.getGarageId());
         }
-        // Check if garage id in request exists
-        getGarageUseCase.execute(request.getGarageId());
 
         TransportationEntity result = entity.get();
         result.setDeliveryStatus(DeliveryStatus.fromInt(request.getDeliveryStatus()));

@@ -32,6 +32,7 @@ public class TransportationMapper {
                 .gender(mainDriver.getGender())
                 .phoneNumber(mainDriver.getPhoneNumber())
                 .dateOfBirth(mainDriver.getBirthday())
+                .numberOfTrips(mainDriver.getNumberOfTrips())
                 .build();
 
         GetDriverInfoDto coDriverInfoDto = GetDriverInfoDto.builder()
@@ -41,6 +42,7 @@ public class TransportationMapper {
                 .gender(mainDriver.getGender())
                 .phoneNumber(coDriver.getPhoneNumber())
                 .dateOfBirth(coDriver.getBirthday())
+                .numberOfTrips(coDriver.getNumberOfTrips())
                 .build();
 
         responseBuilder.mainDriver(mainDriverInfoDto);

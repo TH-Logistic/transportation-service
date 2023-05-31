@@ -4,6 +4,7 @@ import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
 import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
 import com.thlogistic.transportation.aop.exception.CustomRuntimeException;
 import com.thlogistic.transportation.aop.exception.DataNotFoundException;
+import com.thlogistic.transportation.client.job.JobClient;
 import com.thlogistic.transportation.client.user.UserClient;
 import com.thlogistic.transportation.client.user.UserInfoDto;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
@@ -24,6 +25,7 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
     private final TransportationRepository transportationRepository;
     private final GetGarageUseCase getGarageUseCase;
     private final UserClient userClient;
+    private final JobClient jobClient;
 
     @Override
     public GetTransportationResponse execute(BaseTokenRequest<String> baseTokenRequest) {
@@ -43,6 +45,12 @@ public class GetTransportationByDriverIdUseCaseImpl implements GetTransportation
         try {
             mainDriverDto = userClient.getUser(token, mainDriverId).getData();
             coDriverDto = userClient.getUser(token, coDriverId).getData();
+
+            Integer totalTripsOfMainDriver = jobClient.getNumberOfTripsOfDriver(token, mainDriverId).getData();
+            Integer totalTripsOfCoDriver = jobClient.getNumberOfTripsOfDriver(token, coDriverId).getData();
+
+            mainDriverDto.setNumberOfTrips(totalTripsOfMainDriver);
+            coDriverDto.setNumberOfTrips(totalTripsOfCoDriver);
         } catch (Exception e) {
             throw new CustomRuntimeException("An error occurred when get driver info");
         }
