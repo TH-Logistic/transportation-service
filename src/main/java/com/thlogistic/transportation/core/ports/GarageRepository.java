@@ -12,6 +12,8 @@ public interface GarageRepository {
     String save(GarageEntity garage);
 
     Optional<GarageEntity> findById(String id);
+    List<GarageEntity> findAllByName(String name);
+    List<GarageEntity> findAll();
 
     BasePagingQueryResult<List<GarageEntity>> list(String keyword, Integer page, Integer size);
 

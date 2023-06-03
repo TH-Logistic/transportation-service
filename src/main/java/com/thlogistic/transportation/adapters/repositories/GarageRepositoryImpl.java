@@ -32,6 +32,16 @@ public class GarageRepositoryImpl implements GarageRepository {
     }
 
     @Override
+    public List<GarageEntity> findAllByName(String name) {
+        return repository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<GarageEntity> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public BasePagingQueryResult<List<GarageEntity>> list(String keyword, Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<GarageEntity> garages;

@@ -19,4 +19,7 @@ public interface MongoTransportationRepository extends MongoRepository<Transport
     Page<TransportationEntity> findByLicensePlateContainingIgnoreCase(String keyword, Pageable pageable);
 
     List<TransportationEntity> findByGarageId(String garageId);
+
+    List<TransportationEntity> findAllByLicensePlateContainingIgnoreCaseOrGarageIdIsIn(String licensePlate, List<String> garageIds);
+    List<TransportationEntity> findAllByGarageIdIsIn(List<String> garageIds);
 }

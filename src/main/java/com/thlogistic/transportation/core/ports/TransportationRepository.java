@@ -21,5 +21,7 @@ public interface TransportationRepository {
     BasePagingQueryResult<List<TransportationEntity>> pagingWithoutDeliveryStatus(String keyword, Integer page, Integer size);
     List<TransportationEntity> listByGarageId(String garageId);
     List<TransportationEntity> findAll();
+    List<TransportationEntity> findAllTransportationToAssignForJob(List<String> garageIds);
+    List<TransportationEntity> findAllTransportationToAssignForJobWithLicensePlate(String licensePlate, List<String> garageIds);
     void deleteAll();
 }

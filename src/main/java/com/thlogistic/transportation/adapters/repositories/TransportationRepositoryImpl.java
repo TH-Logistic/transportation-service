@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -87,6 +88,20 @@ public class TransportationRepositoryImpl implements TransportationRepository {
     @Override
     public List<TransportationEntity> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<TransportationEntity> findAllTransportationToAssignForJob(List<String> garageIds) {
+        return repository.findAllByGarageIdIsIn(garageIds)
+                .stream()
+                .filter(entity -> entity.getDeliveryStatus() == DeliveryStatus.IDLE).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TransportationEntity> findAllTransportationToAssignForJobWithLicensePlate(String licensePlate, List<String> garageIds) {
+        return repository.findAllByLicensePlateContainingIgnoreCaseOrGarageIdIsIn(licensePlate, garageIds)
+                .stream()
+                .filter(entity -> entity.getDeliveryStatus() == DeliveryStatus.IDLE).collect(Collectors.toList());
     }
 
     @Override

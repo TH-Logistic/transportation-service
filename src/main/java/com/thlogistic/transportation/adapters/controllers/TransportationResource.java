@@ -1,9 +1,6 @@
 package com.thlogistic.transportation.adapters.controllers;
 
-import com.thlogistic.transportation.adapters.dtos.CreateTransportationRequest;
-import com.thlogistic.transportation.adapters.dtos.ListTransportationPagingRequest;
-import com.thlogistic.transportation.adapters.dtos.UpdateTransportationDeliveryStatusRequest;
-import com.thlogistic.transportation.adapters.dtos.UpdateTransportationRequest;
+import com.thlogistic.transportation.adapters.dtos.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +15,9 @@ interface TransportationResource {
 
     @GetMapping("detail/{id}")
     ResponseEntity<Object> getTransportationDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
+
+    @GetMapping("/for-assigning")
+    ResponseEntity<Object> getTransportationForAssigning(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid GetTransportationToAssignForJobRequest request);
 
     @GetMapping("/find-by-driver/{driverId}")
     ResponseEntity<Object> getTransportationByDriverId(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String driverId);

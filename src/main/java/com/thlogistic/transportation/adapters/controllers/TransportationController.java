@@ -7,6 +7,8 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class TransportationController extends BaseController implements TransportationResource {
@@ -15,6 +17,7 @@ public class TransportationController extends BaseController implements Transpor
     private final GetTransportationDetailUseCase getTransportationDetailUseCase;
     private final GetTransportationByDriverIdUseCase getTransportationByDriverIdUseCase;
     private final GetTotalTransportationUseCase getTotalTransportationUseCase;
+    private final GetTransportationToAssignForJobUseCase getTransportationToAssignForJobUseCase;
     private final CreateTransportationUseCase createTransportationUseCase;
     private final UpdateTransportationUseCase updateTransportationUseCase;
     private final ListTransportationUseCase listTransportationUseCase;
@@ -38,6 +41,17 @@ public class TransportationController extends BaseController implements Transpor
                 new BaseTokenRequest<>(
                         token,
                         id
+                )
+        );
+        return successResponse(result, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> getTransportationForAssigning(String token, GetTransportationToAssignForJobRequest request) {
+        List<GetTransportationToAssignForJobResponse> result = getTransportationToAssignForJobUseCase.execute(
+                new BaseTokenRequest<>(
+                        token,
+                        request
                 )
         );
         return successResponse(result, null);
