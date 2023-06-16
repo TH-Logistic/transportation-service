@@ -2,7 +2,6 @@ package com.thlogistic.transportation.adapters.controllers;
 
 import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
 import com.thlogistic.transportation.adapters.dtos.GetDriverDetailResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationDetailResponse;
 import com.thlogistic.transportation.core.usecases.GetDriverDetailUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

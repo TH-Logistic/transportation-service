@@ -1,8 +1,6 @@
 package com.thlogistic.transportation.adapters.controllers;
 
-import com.thlogistic.transportation.adapters.dtos.CreateGarageRequest;
-import com.thlogistic.transportation.adapters.dtos.UpdateGarageRequest;
-import com.thlogistic.transportation.adapters.dtos.ListGaragePagingRequest;
+import com.thlogistic.transportation.adapters.dtos.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +14,9 @@ interface GarageResource {
 
     @GetMapping("/detail/{id}")
     ResponseEntity<Object> getGarageDetail(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @PathVariable String id);
+
+    @GetMapping("/ending/for-assigning")
+    ResponseEntity<Object> getEndingGarageForAssigning(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid GetEndingGarageToAssignForJobRequest request);
 
     @GetMapping("/list")
     ResponseEntity<Object> listGarage(@Valid ListGaragePagingRequest request);

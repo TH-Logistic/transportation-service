@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetTransportationDetailResponse {
-    GetTransportationResponse product;
+    GetTransportationWithOrderIdResponse transportation;
     JobStatisticDto statistic;
     List<GetJobListDto> jobs;
 }

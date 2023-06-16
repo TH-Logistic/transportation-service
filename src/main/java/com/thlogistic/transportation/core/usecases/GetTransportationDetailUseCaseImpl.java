@@ -1,29 +1,17 @@
 package com.thlogistic.transportation.core.usecases;
 
-import com.thlogistic.transportation.adapters.dtos.BaseResponse;
-import com.thlogistic.transportation.adapters.dtos.BaseTokenRequest;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationDetailResponse;
-import com.thlogistic.transportation.adapters.dtos.GetTransportationResponse;
+import com.thlogistic.transportation.adapters.dtos.*;
 import com.thlogistic.transportation.aop.exception.CustomRuntimeException;
-import com.thlogistic.transportation.aop.exception.DataNotFoundException;
 import com.thlogistic.transportation.client.job.GetJobListDto;
 import com.thlogistic.transportation.client.job.GetJobStatisticResponse;
 import com.thlogistic.transportation.client.job.JobClient;
 import com.thlogistic.transportation.client.job.JobStatisticDto;
-import com.thlogistic.transportation.client.user.UserClient;
-import com.thlogistic.transportation.client.user.UserInfoDto;
 import com.thlogistic.transportation.core.entities.DeliveryStatus;
-import com.thlogistic.transportation.core.entities.Garage;
-import com.thlogistic.transportation.core.entities.Transportation;
-import com.thlogistic.transportation.core.ports.TransportationRepository;
-import com.thlogistic.transportation.entities.TransportationEntity;
-import com.thlogistic.transportation.mapper.TransportationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -38,11 +26,22 @@ public class GetTransportationDetailUseCaseImpl implements GetTransportationDeta
         GetTransportationResponse transportationDto = getTransportationUseCase.execute(baseTokenRequest);
 
         BaseResponse<GetJobStatisticResponse> getJobStatisticResponse;
+        String mainDriverId;
         try {
-            String mainDriverId = transportationDto.getMainDriver().getId();
+            mainDriverId = transportationDto.getMainDriver().getId();
             getJobStatisticResponse = jobClient.getJobStatistic(token, mainDriverId);
         } catch (Exception e) {
-            throw new CustomRuntimeException("An error occurred when loading statistic for transportation detail");
+            throw new CustomRuntimeException("An error occurred when loading job statistic");
+        }
+
+        String orderId = null;
+        if (Objects.equals(transportationDto.getDeliveryStatus(), DeliveryStatus.DELIVERY.status)
+                || !transportationDto.getIsInGarage()) {
+            try {
+                orderId = jobClient.getCurrentDeliveryJobOfDriver(token, mainDriverId).getData();
+            } catch (Exception e) {
+                throw new CustomRuntimeException("An error occurred when loading order ID");
+            }
         }
 
         JobStatisticDto jobStatisticDto = getJobStatisticResponse.getData().getStatistic();
@@ -54,9 +53,26 @@ public class GetTransportationDetailUseCaseImpl implements GetTransportationDeta
         }
 
         return new GetTransportationDetailResponse(
-                transportationDto,
+                mapToResponseWithOrderId(transportationDto, orderId),
                 jobStatisticDto,
                 jobListDtos
+        );
+    }
+
+    private GetTransportationWithOrderIdResponse mapToResponseWithOrderId(
+            GetTransportationResponse originalResponse,
+            String orderId
+            ) {
+        return new GetTransportationWithOrderIdResponse(
+                originalResponse.getId(),
+                orderId,
+                originalResponse.getLicensePlate(),
+                originalResponse.getLoad(),
+                originalResponse.getDeliveryStatus(),
+                originalResponse.getIsInGarage(),
+                originalResponse.getGarage(),
+                originalResponse.getMainDriver(),
+                originalResponse.getCoDriver()
         );
     }
 }

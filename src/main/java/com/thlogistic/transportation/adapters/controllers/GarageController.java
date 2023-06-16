@@ -9,6 +9,8 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class GarageController extends BaseController implements GarageResource {
@@ -17,6 +19,7 @@ public class GarageController extends BaseController implements GarageResource {
     private final UpdateGarageUseCase updateGarageUseCase;
     private final ListGarageUseCase listGarageUseCase;
     private final GetGarageUseCase getGarageUseCase;
+    private final GetEndingGarageToAssignForJobUseCase getEndingGarageToAssignForJobUseCase;
     private final GetGarageDetailUseCase getGarageDetailUseCase;
 
     @Override
@@ -31,6 +34,17 @@ public class GarageController extends BaseController implements GarageResource {
                 new BaseTokenRequest<>(
                         token,
                         id
+                )
+        );
+        return successResponse(result, null);
+    }
+
+    @Override
+    public ResponseEntity<Object> getEndingGarageForAssigning(String token, GetEndingGarageToAssignForJobRequest request) {
+        List<GetEndingGarageToAssignForJobResponse> result = getEndingGarageToAssignForJobUseCase.execute(
+                new BaseTokenRequest<>(
+                        token,
+                        request
                 )
         );
         return successResponse(result, null);
